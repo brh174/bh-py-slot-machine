@@ -15,7 +15,9 @@ def spin(balance):
         if validate.enough_balance_for_bet(total_bet, balance):
             break
         else:
-            balance += validate.check_to_add_balance()
+            new_deposit = validate.check_to_add_balance()
+            print(f"You deposited ${new_deposit}")
+            return new_deposit
 
     print(
         f"You are betting ${bet} on {lines} lines. Total bet is equal to: ${total_bet}")
