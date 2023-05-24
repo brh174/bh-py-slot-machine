@@ -5,6 +5,7 @@ from get_bet import get_bet
 from check_winnings import check_winnings
 import slot_config
 import validate
+import time
 
 
 def spin(balance):
@@ -20,13 +21,23 @@ def spin(balance):
             return new_deposit
 
     print(
-        f"You are betting ${bet} on {lines} lines. Total bet is equal to: ${total_bet}")
+        f"You are betting ${bet} on {lines} line(s). Total bet is equal to: ${total_bet}")
+    time.sleep(1)
+    print(
+        f"All bets locked in. You bet ${total_bet}. Your remaining balance: ${balance - total_bet}")
+    time.sleep(2)
 
     slots = get_slot_machine_spin(
         slot_config.ROWS, slot_config.COLS, slot_config.symbol_count)
     print_slot_machine(slots)
     winnings, winning_lines = check_winnings(
         slots, lines, bet, slot_config.symbol_value)
-    print(f"You won {winnings}.")
-    print(f"You won on lines: ", *winning_lines)
+
+    if winnings:
+        print(f"You won ${winnings}.")
+    else:
+        print("Better luck next time.")
+    if winning_lines:
+        print(f"You won on lines: ", *winning_lines)
+
     return winnings - total_bet
